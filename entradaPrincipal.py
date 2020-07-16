@@ -9,7 +9,7 @@ def contagemPessoas(vetor):
     lotacaoShopping = 500
     taxaPermitidaShopping = 0.3
     capMaxShopping = lotacaoShopping * taxaPermitidaShopping
-    pessoasInternas = 5
+    pessoasInternas = 14
 
     while capMaxShopping > pessoasInternas > 0:
         if vetor[0] == 1 and vetor[1] == 0:  # entrada de pessoas
