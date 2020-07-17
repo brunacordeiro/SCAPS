@@ -1,5 +1,5 @@
 # SCAPS
-Projeto de um Sistema de Controle de Acesso de Pessoas em um Shopping
+Projeto de um Sistema de Controle de Acesso de Pessoas em um Shopping (Bruna Cordeiro e Thalia Santana)
 
 Necessário instalar o RabbitMQ, seguindo as instruções em: https://www.rabbitmq.com/download.html
 
