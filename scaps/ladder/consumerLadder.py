@@ -7,31 +7,30 @@ parameters = pika.ConnectionParameters('localhost', 5672, '/', credentials)
 connection = pika.BlockingConnection(parameters)
 channel = connection.channel()
 
-channel.exchange_declare(exchange='door', exchange_type='fanout')
-
 entradas = 0
 saidas = 0
 qntPessoas = 0
 
-entP1 = 0
-entP2 = 0
-entP3 = 0
+entE1 = 0
+entE2 = 0
+entE3 = 0
 
-saiP1 = 0
-saiP2 = 0
-saiP3 = 0
+saiE1 = 0
+saiE2 = 0
+saiE3 = 0
 
 
-def consumerDoor():
+def consumerEscada():
 
-    result = channel.queue_declare(queue='queue_door', exclusive=False)
-    queue_door = result.method.queue
-    channel.queue_bind(exchange='door', queue=queue_door)
+    channel.exchange_declare(exchange='escada', exchange_type='fanout')
+    result = channel.queue_declare(queue='queue_escada', exclusive=False)
+    queue_escada = result.method.queue
+    channel.queue_bind(exchange='escada', queue=queue_escada)
 
     def callback(ch, method, properties, body):
 
         global entradas, saidas, qntPessoas
-        global entP1, entP2, entP3, saiP1, saiP2, saiP3
+        global entE1, entE2, entE3, saiE1, saiE2, saiE3
 
         n = str(body)
         n1, n2, n3, n4 = n.split(', ')
@@ -40,30 +39,29 @@ def consumerDoor():
         n3 = int(n3)
         n4 = int(n4[0])
         print("------------------------------------------------------------------")
-
         if n4 == 1:
-            print("Informações Porta: ", n4)
+            print("Informações Escada: ", n4)
             print("Entradas: ", n2)
             print("Saida", n3)
-            entP1 = n2
-            saiP1 = n3
+            entE1 = n2
+            saiE1 = n3
 
         if n4 == 2:
-            print("Informações Porta: ", n4)
+            print("Informações Escada: ", n4)
             print("Entradas: ", n2)
             print("Saida", n3)
-            entP2 = n2
-            saiP2 = n3
+            entE2 = n2
+            saiE2 = n3
 
         if n4 == 3:
-            print("Informações Porta: ", n4)
+            print("Informações Escada: ", n4)
             print("Entradas: ", n2)
             print("Saida", n3)
-            entP3 = n2
-            saiP3 = n3
+            entE2 = n2
+            saiE2 = n3
 
-        entradas = entP1 + entP2 + entP3
-        saidas = saiP1 + saiP2 + saiP3
+        entradas = entE1 + entE2 + entE3
+        saidas = saiE1 + saiE2 + saiE3
         qntPessoas = entradas - saidas
 
         print("Entradas no Shopping: ", entradas)
@@ -71,14 +69,13 @@ def consumerDoor():
         print("Quantidade de Pessoas dentro do Shopping:", qntPessoas)
         print("------------------------------------------------------------------\n")
 
-        message = qntPessoas, "Portas"
+        message = qntPessoas, "Escada"
         channel.exchange_declare(exchange='contagem', exchange_type='fanout')
         channel.basic_publish(exchange='contagem', routing_key='', body=str(message))
 
-    time.sleep(5)
-    channel.basic_consume(queue=queue_door, on_message_callback=callback, auto_ack=True)
+    channel.basic_consume(queue=queue_escada, on_message_callback=callback, auto_ack=True)
     channel.start_consuming()
 
 
 if __name__ == '__main__':
-    consumerDoor()
+    consumerEscada()
