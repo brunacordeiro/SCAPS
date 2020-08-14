@@ -37,7 +37,6 @@ def connection():
             channel.basic_publish(exchange='ladder', routing_key='', body=message_e1)
             time.sleep(3)
 
-
     connection.close()
 
 
