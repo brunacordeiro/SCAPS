@@ -77,6 +77,7 @@ def contagemPessoas(vetor):  # [1,0] ... [0,1]
 
             return str(amountPeople)
         else:
+            
             print("Shopping está vazio!")
 
     print("\nCapacidade Máxima Atingida")
