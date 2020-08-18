@@ -3,18 +3,15 @@ import time
 
 # credentials = pika.PlainCredentials('scaps', '123456789')
 credentials = pika.PlainCredentials('guest', 'guest')
-parameters = pika.ConnectionParameters('localhost', 5672, '/', credentials)
+
+parameters = (
+    pika.ConnectionParameters(host='localhost', port=5672, credenciats=credentials),
+    pika.ConnectionParameters(host='localhost', port=5672, credenciats=credentials),
+    pika.ConnectionParameters(host='localhost', port=5672, credenciats=credentials,
+                              connection_attempts=5, retry_delay=1))
 connection = pika.BlockingConnection(parameters)
 
-parameters2 = pika.ConnectionParameters('localhost', 5672, '/', credentials)
-connection2 = pika.BlockingConnection(parameters2)
-
-parameters3 = pika.ConnectionParameters('localhost', 5672, '/', credentials)
-connection3 = pika.BlockingConnection(parameters3)
-
 channel = connection.channel()
-channel = connection2.channel()
-channel = connection3.channel()
 
 channel.exchange_declare(exchange='contagem', exchange_type='fanout')
 
