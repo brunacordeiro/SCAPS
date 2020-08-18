@@ -35,7 +35,6 @@ def consumerDoor():
 
         n = str(body)
         n1, n2, n3, n4 = n.split(', ')
-        # n1 = int(n1[4] + n1[5])
         n2 = int(n2)
         n3 = int(n3)
         n4 = int(n4[0])
@@ -71,11 +70,11 @@ def consumerDoor():
         print("Quantidade de Pessoas dentro do Shopping:", qntPessoas)
         print("------------------------------------------------------------------\n")
 
-        message = qntPessoas, "Portas"
+        message = entradas, saidas, "Portas"
         channel.exchange_declare(exchange='contagem', exchange_type='fanout')
         channel.basic_publish(exchange='contagem', routing_key='', body=str(message))
 
-    time.sleep(5)
+    channel.basic_qos(prefetch_count=1)
     channel.basic_consume(queue=queue_door, on_message_callback=callback, auto_ack=True)
     channel.start_consuming()
 

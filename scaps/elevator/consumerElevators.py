@@ -69,11 +69,11 @@ def consumerElevator():
         print("Quantidade de Pessoas dentro do Shopping:", qntPessoas)
         print("------------------------------------------------------------------\n")
 
-        message = qntPessoas, "Elevador"
+        message = entradas, saidas, "Elevador"
         channel.exchange_declare(exchange='contagem', exchange_type='fanout')
         channel.basic_publish(exchange='contagem', routing_key='', body=str(message))
 
-    time.sleep(5)
+    channel.basic_qos(prefetch_count=1)
     channel.basic_consume(queue=queue_elevator, on_message_callback=callback, auto_ack=True)
     channel.start_consuming()
 

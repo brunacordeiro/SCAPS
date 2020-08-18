@@ -69,10 +69,11 @@ def consumerEscada():
         print("Quantidade de Pessoas dentro do Shopping:", qntPessoas)
         print("------------------------------------------------------------------\n")
 
-        message = qntPessoas, "Escada"
+        message = entradas, saidas, "Escada"
         channel.exchange_declare(exchange='contagem', exchange_type='fanout')
         channel.basic_publish(exchange='contagem', routing_key='', body=str(message))
 
+    channel.basic_qos(prefetch_count=1)
     channel.basic_consume(queue=queue_escada, on_message_callback=callback, auto_ack=True)
     channel.start_consuming()
 
