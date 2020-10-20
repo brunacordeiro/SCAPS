@@ -1,4 +1,6 @@
 # SCAPS
+Video do trabalho: https://www.youtube.com/watch?v=OE9gfdzQPvY&feature=youtu.be
+
 Projeto de um Sistema de Controle de Acesso de Pessoas em um Shopping (Bruna Cordeiro e Thalia Santana)
 
 Necessário instalar o RabbitMQ, seguindo as instruções em: https://www.rabbitmq.com/download.html
